@@ -1,16 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import { evaluateDomFunctionality } from './utils/evaluateDom';
+import { submitCodeWithUpdatedDom } from './utils/evaluateDom';
+import { evaluateDomChallenge } from './utils/evaluateProblemAndGiveResult';
 
 function App() {
   const [src, setSrc] = useState('');
   const iframeRef = useRef();
+
+  const [updatedDom,setUpdatedDom] = useState({});
+
+  useEffect(()=>{
+       console.dir(updatedDom)
+  },[updatedDom])
+
+  const handleSubmit = () =>{
+    evaluateDomChallenge(updatedDom)
+  }
 
   useEffect(() => {
     // Add event listener for receiving messages from the iframe
     const handleMessage = (event) => {
       // event.data contains the innerHTML sent from the iframe
       console.dir(event.source.document);
+      setUpdatedDom(event.source.document)
     };
 
     // Attach the event listener
@@ -24,7 +36,7 @@ function App() {
 
 
   const evaluateDom = () => {
-    const doc = evaluateDomFunctionality(); // Replace this with your actual logic
+    const doc = submitCodeWithUpdatedDom(); // Replace this with your actual logic
     setSrc(doc);
   };
 
@@ -39,6 +51,7 @@ function App() {
         style={{ border: '2px solid red' }}
       />
       <button onClick={evaluateDom}>Evaluate Dom</button>
+      <button onClick={handleSubmit}>Submit Problem</button>
     </>
   );
 }
