@@ -26,15 +26,23 @@ const buttonElem = document.getElementById("myButton");
 buttonElem.addEventListener('click', () => {
   const oldText = buttonElem.innerText;
   buttonElem.innerText = oldText === "ON" ? "OFF" : "ON";
-  window.parent.postMessage("hi", '*');
+
 });
-window.parent.postMessage("hi", '*');
+buttonElem.addEventListener('dblclick', () => {
+  const oldText = buttonElem.innerText;
+  buttonElem.innerText = oldText === "ON" ? "OFF" : "ON";
+});
 `
 function submitCodeWithUpdatedDom(){
 
+// const userCodeFull = userCode.split('').join("").replace(/}\)/g,`window.parent.postMessage("hi", '*');})`)
+const userCodeFull = userCode.replace(/\}\s*\)/g, '})').replace(/}\)/g,`window.parent.postMessage("hi", '*');})`)
+
+
 
   const combinedCode = initialHtml.split("<script></script>")
-  const resultedCode = [combinedCode[0],"<script>",userCode,"</script>",combinedCode[1]].join("")
+  const resultedCode = [combinedCode[0],"<script>",userCodeFull,`window.parent.postMessage("hi", '*');`,"</script>",combinedCode[1]].join("")
+  console.log(resultedCode)
   return resultedCode
   
 
