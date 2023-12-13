@@ -4,21 +4,28 @@ const expectedProblemArray = [
       initial_html:``,
       test_cases:[
         {
+          isEvent:true,
           event:"click",
           selector_type:"id",
           selector_tag:"button",
           selector_name:"myButton",
           what_to_check:"innerText"
+        },
+        {
+          isEvent:false,
+          selector_type:"class"
         }
       ],
       expected_output:["OFF"]
+    },
+    {
+      challenge_name:"dom challenge test 2",
     }
   ]
 
 
 const evaluateDomChallenge = (updatedDom) =>{
      updatedDom.getElementById("myButton").click();
-     console.log(updatedDom)
      let isCorrect = false;
      for(let i=0;i<expectedProblemArray.length;i++){
         const {test_cases,expected_output} = expectedProblemArray[i];

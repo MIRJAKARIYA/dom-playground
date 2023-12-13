@@ -1,20 +1,68 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import { submitCodeWithUpdatedDom } from './utils/evaluateDom';
 import { evaluateDomChallenge } from './utils/evaluateProblemAndGiveResult';
+import CodeEditor from './components/CodeEditor/CodeEditor';
+import { checkSyntaxError } from './utils/checkSyntaxError';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
+const initialJs = `
+const buttonElem = 
+
+buttonElem.addEventListener('click', () => {
+  const oldText = buttonElem.innerText;
+  buttonElem.innerText = oldText === "ON" ? "OFF" : "ON";
+
+});
+`
+const initialHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFrame Content</title>
+</head>
+<body>
+  <button id="myButton">ON</button>
+  <script>
+
+  </script>
+</body>
+</html>
+`
+  const [js,setJs] = useState(initialJs)
+
+  const [html,setHtml] = useState(initialHtml)
+
+
+
   const [src, setSrc] = useState('');
   const iframeRef = useRef();
 
   const [updatedDom,setUpdatedDom] = useState({});
 
   useEffect(()=>{
-       console.dir(updatedDom)
+       console.log(updatedDom)
   },[updatedDom])
 
   const handleSubmit = () =>{
-    evaluateDomChallenge(updatedDom)
+    try{
+      evaluateDomChallenge(updatedDom)
+    }
+    catch(err){
+      console.log("Error in the code")
+
+    }
+    finally{
+      setUpdatedDom({})
+      setSrc("")
+      setHtml(initialHtml)
+      setJs(initialJs)
+    }
   }
 
   useEffect(() => {
@@ -35,10 +83,29 @@ function App() {
   }, []);
 
 
-  const evaluateDom = () => {
-    const doc = submitCodeWithUpdatedDom(); // Replace this with your actual logic
-    setSrc(doc);
+  const evaluateDom =async () => {
+      //check syntax error here
+      const errorMgs = checkSyntaxError(html,js)
+      if(errorMgs.error){
+        toast.error(errorMgs.mgs)
+      }
+      else{
+        const doc = submitCodeWithUpdatedDom(html,js);
+        setSrc(doc);
+      }
+
+  
+    
   };
+
+  const onChange = useCallback((value, viewUpdate) => {
+    setJs(value)
+
+  }, []);
+  const onChangehtml = useCallback((value, viewUpdate) => {
+    setHtml(value)
+
+  }, []);
 
   return (
     <>
@@ -50,9 +117,16 @@ function App() {
         title="Embedded Content"
         style={{ border: '2px solid red' }}
       />
+      <div style={{display:"flex",}}>
+      <CodeEditor onChange={onChangehtml} initialCode={html}></CodeEditor>
+      <CodeEditor onChange={onChange} initialCode={js}></CodeEditor>
+      </div>
       <button onClick={evaluateDom}>Evaluate Dom</button>
       <button onClick={handleSubmit}>Submit Problem</button>
+      <ToastContainer />
     </>
+
+
   );
 }
 
