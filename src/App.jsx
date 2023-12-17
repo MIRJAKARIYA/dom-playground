@@ -10,7 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 const initialJs = `
-const buttonElem = 
+
+const buttonElem = document.getElementById("myButton")
+document.querySelector(".jack").style.color = "red";
 
 buttonElem.addEventListener('click', () => {
   const oldText = buttonElem.innerText;
@@ -28,6 +30,7 @@ const initialHtml = `
 </head>
 <body>
   <button id="myButton">ON</button>
+  <h1 class="jack">my name is mir jakariya</h1>
   <script>
 
   </script>
@@ -51,10 +54,16 @@ const initialHtml = `
 
   const handleSubmit = () =>{
     try{
-      evaluateDomChallenge(updatedDom)
+      const isOkay = evaluateDomChallenge(updatedDom)
+      if(isOkay) {
+        toast.success("Congratulations.You have completed the challenge")
+      }
+      else{
+        toast.error("Sorry You couldn't complete the challenge")
+      }
     }
     catch(err){
-      console.log("Error in the code")
+      console.log("Error in the code",err)
 
     }
     finally{

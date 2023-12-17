@@ -1,4 +1,4 @@
-const expectedProblemArray = [
+const expectedProblemArray = 
     {
       challenge_name:"dom challenge test 1",
       initial_html:``,
@@ -6,44 +6,51 @@ const expectedProblemArray = [
         {
           isEvent:true,
           event:"click",
-          selector_type:"id",
-          selector_tag:"button",
-          selector_name:"myButton",
+          selector_name:"#myButton",
+          what_selector_to_check:"#myButton",
           what_to_check:"innerText"
         },
         {
           isEvent:false,
-          selector_type:"class"
+          selector_name:".jack",
+          what_selector_to_check:".jack",
+          what_to_check: "style",
         }
       ],
-      expected_output:["OFF"]
-    },
-    {
-      challenge_name:"dom challenge test 2",
+      expected_output:["OFF","color:red"]
     }
-  ]
 
 
 const evaluateDomChallenge = (updatedDom) =>{
-     updatedDom.getElementById("myButton").click();
-     let isCorrect = false;
-     for(let i=0;i<expectedProblemArray.length;i++){
-        const {test_cases,expected_output} = expectedProblemArray[i];
-        for(let j=0;j<test_cases.length;j++){
-            const {event,selector_type,selector_tag,selector_name,what_to_check} = test_cases[j];
-            console.log(test_cases[j])
-            const accesElement = updatedDom.getElementById(selector_name)[what_to_check]
-            console.log(accesElement)
-
-            if(expected_output.includes(accesElement)) {
-                isCorrect = true;
-                break
-            }
-
-
+     
+     
+     let isCorrect = true;
+     const {challenge_name,initial_html,test_cases,expected_output} = expectedProblemArray
+     for(let i =0;i<test_cases.length;i++){
+      const test = test_cases[i];
+      if(test.isEvent){
+        switch(test.event){
+          case "click":
+            updatedDom.querySelector(test.selector_name).click();
+          default:
+            console.log("no event")
         }
+      }
+      let checkedValue;
+      if(test.isEvent){
+        checkedValue = updatedDom.querySelector(test.what_selector_to_check)[test.what_to_check];
+      }
+      else{
+        checkedValue = updatedDom.querySelector(test.what_selector_to_check).getAttribute(test.what_to_check);
+      }
+      console.log(checkedValue)
+      checkedValue = checkedValue.split(";").join("").split(" ").join("")
+      if(!expected_output.includes(checkedValue)){
+        isCorrect = false;
+      }
+
      }
-     if(isCorrect) alert("Correct");else alert("Incorrect")
+     return isCorrect
 }
 
 export {evaluateDomChallenge}
