@@ -1,0 +1,24 @@
+[
+  {
+    "challenge_id": 1,
+    "challenge_name": "dom challenge test 1",
+    "initial_html": "\n            <!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n  <button id=\"myButton\">ON</button>\n  <h1 class=\"jack\">my name is mir jakariya</h1>\n  <script>\n\n  </script>\n</body>\n</html>\n            ",
+    "initial_js": "\n            const buttonElem = document.getElementById(\"myButton\")\ndocument.querySelector(\".jack\").style.color = \"red\";\n\nbuttonElem.addEventListener('click', () => {\n  const oldText = buttonElem.innerText;\n  buttonElem.innerText = oldText === \"ON\" ? \"OFF\" : \"ON\";\n\n});\n            ",
+    "test_cases": [
+      {
+        "isEvent": true,
+        "event": "click",
+        "selector_name": "#myButton",
+        "what_selector_to_check": "#myButton",
+        "what_to_check": "innerText"
+      },
+      {
+        "isEvent": false,
+        "selector_name": ".jack",
+        "what_selector_to_check": ".jack",
+        "what_to_check": "style"
+      }
+    ],
+    "expected_output": ["OFF", "color:red"]
+  }
+]
