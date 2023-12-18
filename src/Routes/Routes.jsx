@@ -3,6 +3,7 @@ import App from "../App";
 import AllProblems from "../pages/AllProblems/AllProblems";
 import SingleProblem from "../pages/SingleProblem/SingleProblem";
 import AddProblem from "../pages/AddProblem/AddProblem";
+import ManageProblems from "../pages/ManageProblems/ManageProblems";
 
  const routes = createBrowserRouter([
     {
@@ -17,15 +18,19 @@ import AddProblem from "../pages/AddProblem/AddProblem";
                 path:"/singleProblem/:id",
                 element:<SingleProblem></SingleProblem>,
                 loader:async ({params})=> {
-                    const res =await fetch('/problems.json')
+                    const res =await fetch('http://localhost:5000/allProblems')
                     console.log(res)
                     const data = await res.json()
-                    return data.find(d=>d.challenge_id == params.id)
+                    return data.find(d=>d._id == params.id)
                 }
             },
             {
                 path:"/addProblem",
                 element:<AddProblem></AddProblem>
+            },
+            {
+                path:"/manageProblems",
+                element:<ManageProblems></ManageProblems>
             }
         ]
     }

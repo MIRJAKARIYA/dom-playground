@@ -5,7 +5,7 @@ const AllProblems = () => {
     const navigate = useNavigate()
     const [problemArray,setProblemArray] = useState([])
     useEffect(()=>{
-        fetch("/problems.json")
+        fetch("http://localhost:5000/allProblems")
         .then(res=>res.json())
         .then(data=>setProblemArray(data))
     },[])
@@ -13,7 +13,7 @@ const AllProblems = () => {
 
     {
         problemArray.map((prob,index)=>{
-            return <button onClick={()=>navigate(`/singleProblem/${prob.challenge_id}`)}>{prob.challenge_name}</button>
+            return <button onClick={()=>navigate(`/singleProblem/${prob._id}`)}>{prob.challenge_name}</button>
         })
     }
   </div>;

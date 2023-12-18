@@ -3,12 +3,6 @@ import CodeEditor from "../../components/CodeEditor/CodeEditor";
 import CustomModal from "../../components/Modal/CustomModal";
 
 const AddProblem = () => {
-  const [problem, setProblem] = useState({
-    challenge_name: "",
-    initial_html: "",
-    initial_js: "",
-    test_cases: [],
-  });
 
   const [html, setHtml] = useState("");
   const [js, setJs] = useState("");
@@ -30,13 +24,22 @@ const AddProblem = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
+   const data ={
       challenge_name: e.target.challengeName.value,
       challenge_des: e.target.challengeDes.value,
       html: html,
       js: js,
       testCases:testCases
-    });
+    };
+    fetch("http://localhost:5000/addDomProblem",{
+      method:"POST",
+      headers:{
+        "Content-Type":"Application/json"
+      },
+      body:JSON.stringify(data)
+    })
+    .then(res =>res.json())
+    .then(data=>console.log(data))
   };
 
   const handleRemove = index =>{
