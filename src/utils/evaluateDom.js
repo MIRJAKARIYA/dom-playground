@@ -5,7 +5,7 @@ function submitCodeWithUpdatedDom(html,js){
 
   const userCodeFull = js.replace(/\}\s*\)/g, '})').replace(/}\)/g,`window.parent.postMessage("hi", '*');})`)
   const combinedCode = html.split("<script></script>")
-  const resultedCode = [combinedCode[0],"<script>",userCodeFull,`window.parent.postMessage("hi", '*');`,"</script>",combinedCode[1]].join("")
+  const resultedCode = [combinedCode[0],"<script>",userCodeFull,`;window.parent.postMessage("hi", '*');`,"</script>",combinedCode[1]].join("")
   console.log(resultedCode)
   return resultedCode
 

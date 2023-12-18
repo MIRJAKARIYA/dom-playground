@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 
-const CustomModal = ({ modalIsOpen, setIsOpen, testCases, setTestCases }) => {
+const CustomModal = ({ modalIsOpen, setIsOpen, testCases, setTestCases,expectedOutput,setExpectedOutput }) => {
   let subtitle;
   const customStyles = {
     content: {
@@ -39,6 +39,8 @@ const CustomModal = ({ modalIsOpen, setIsOpen, testCases, setTestCases }) => {
       test.event_selector = e.target.EventTriggeringSelector.value;
     }
     setTestCases([...testCases,test])
+    const expectedOpt = e.target.expectedOutput.value
+    setExpectedOutput([...expectedOutput,expectedOpt])
 
   };
 
@@ -79,6 +81,9 @@ const CustomModal = ({ modalIsOpen, setIsOpen, testCases, setTestCases }) => {
           </div>
           <div>
           Which property to check: <input name="whatToCheck" type="text"/>
+          </div>
+          <div>
+            Expected Output : <input type="text" name="expectedOutput"/>
           </div>
           <button type="submit">Add Test Case</button>
         </form>

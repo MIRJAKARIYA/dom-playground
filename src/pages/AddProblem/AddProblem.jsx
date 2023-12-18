@@ -7,6 +7,7 @@ const AddProblem = () => {
   const [html, setHtml] = useState("");
   const [js, setJs] = useState("");
   const [testCases, setTestCases] = useState([]);
+  const [expectedOutput,setExpectedOutput] = useState([])
 
   useEffect(() => {
     console.log(testCases);
@@ -27,9 +28,10 @@ const AddProblem = () => {
    const data ={
       challenge_name: e.target.challengeName.value,
       challenge_des: e.target.challengeDes.value,
-      html: html,
-      js: js,
-      testCases:testCases
+      initial_html: html,
+      initial_js: js,
+      test_cases:testCases,
+      expected_output:expectedOutput
     };
     fetch("http://localhost:5000/addDomProblem",{
       method:"POST",
@@ -44,8 +46,11 @@ const AddProblem = () => {
 
   const handleRemove = index =>{
     const testCasesArrayCopy = [...testCases]
+    const expectedOptCopy = [...expectedOutput]
     testCasesArrayCopy.splice(index, 1);
+    expectedOptCopy.splice(index, 1);
     setTestCases(testCasesArrayCopy)
+    setExpectedOutput(expectedOptCopy)
   }
   return (
     <div style={{ display: "flex" }}>
@@ -104,6 +109,8 @@ const AddProblem = () => {
           setIsOpen={setIsOpen}
           testCases={testCases}
           setTestCases={setTestCases}
+          expectedOutput = {expectedOutput}
+          setExpectedOutput = {setExpectedOutput}
         ></CustomModal>
     </div>
   );
