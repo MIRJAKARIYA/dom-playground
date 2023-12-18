@@ -7,7 +7,8 @@ import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SingleProblem = () => {
-  const {challenge_id,challenge_name,expected_output,initial_html,initial_js,test_cases} = useLoaderData();
+  const problemData = useLoaderData();
+  const {challenge_id,challenge_name,expected_output,initial_html,initial_js,test_cases} = problemData;
 
   const [js, setJs] = useState(initial_js);
 
@@ -25,7 +26,7 @@ const SingleProblem = () => {
 
   const handleSubmit = () => {
     try {
-      const isOkay = evaluateDomChallenge(updatedDom);
+      const isOkay = evaluateDomChallenge(updatedDom,problemData);
       if (isOkay) {
         toast.success("Congratulations.You have completed the challenge");
       } else {

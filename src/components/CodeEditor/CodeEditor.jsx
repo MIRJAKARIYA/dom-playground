@@ -9,7 +9,7 @@ const CodeEditor = ({initialCode,onChange}) => {
         <CodeMirror
             width='500px'
             minHeight='300px'
-            value={initialCode}
+            value={initialCode?initialCode:""}
           
             onChange={onChange}
         />

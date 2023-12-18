@@ -2,23 +2,94 @@
   {
     "challenge_id": 1,
     "challenge_name": "dom challenge test 1",
-    "initial_html": "\n            <!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n  <button id=\"myButton\">ON</button>\n  <h1 class=\"jack\">my name is mir jakariya</h1>\n  <script>\n\n  </script>\n</body>\n</html>\n            ",
-    "initial_js": "\n            const buttonElem = document.getElementById(\"myButton\")\ndocument.querySelector(\".jack\").style.color = \"red\";\n\nbuttonElem.addEventListener('click', () => {\n  const oldText = buttonElem.innerText;\n  buttonElem.innerText = oldText === \"ON\" ? \"OFF\" : \"ON\";\n\n});\n            ",
+    "challenge_des":"",
+    "initial_html": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n  <button id=\"myButton\">ON</button>\n  <h1 class=\"jack\">my name is mir jakariya</h1>\n  <script>\n\n  </script>\n</body>\n</html>\n            ",
+    "initial_js": "\nconst buttonElem =\n\nbuttonElem.addEventListener('dblclick', () => {\n  const oldText = buttonElem.innerText;\n  buttonElem.innerText = 'OFF';\n\n});\n            ",
     "test_cases": [
       {
         "isEvent": true,
-        "event": "click",
-        "selector_name": "#myButton",
+        "event": "dblclick",
+        "event_selector": "#myButton",
         "what_selector_to_check": "#myButton",
         "what_to_check": "innerText"
       },
       {
         "isEvent": false,
-        "selector_name": ".jack",
+        "event":null,
+        "event_selector": null,
         "what_selector_to_check": ".jack",
         "what_to_check": "style"
       }
     ],
-    "expected_output": ["OFF", "color:red"]
+    "expected_output": ["OFF", "color: red"]
+  },
+  {
+    "challenge_id": 2,
+    "challenge_name": "dom challenge test 2",
+    "challenge_des":"",
+    "initial_html": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n  <input type='text' id='text'/>\n  <button id='clickMe'>click me</button>\n  <script>\n\n  </script>\n</body>\n</html>\n            ",
+    "initial_js": "const button = document.getElementById('clickMe');\nconst input = document.getElementById('text');\n button.addEventListener('click',()=>{\n\n})\n",
+    "test_cases": [
+      {
+        "isEvent": true,
+        "event": "click",
+        "event_selector": "#clickMe",
+        "what_selector_to_check": "#text", 
+        "what_to_check": "value"
+      }
+    ],
+    "expected_output": ["Hello World"]
+  },
+  {
+    "challenge_id": 3,
+    "challenge_name": "dom challenge test 3",
+    "challenge_des":"",
+    "initial_html": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n  <div id='mouseenter'>Hover Me</div>  <script>\n\n  </script>\n</body>\n</html>\n            ",
+    "initial_js": "const element = document.getElementById('mouseenter');\nelement.addEventListener('mouseenter',()=>{\n  \n})\n",
+    "test_cases": [
+      {
+        "isEvent": true,
+        "event": "mouseenter",
+        "event_selector": "#mouseenter",
+        "what_selector_to_check": "#mouseenter", 
+        "what_to_check": "innerText"
+      }
+    ],
+    "expected_output": ["Thanks!"]
+  },
+  {
+    "challenge_id": 4,
+    "challenge_name": "dom challenge test 4",
+    "challenge_des":"",
+    "initial_html": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IFrame Content</title>\n</head>\n<body>\n<div style='background-color:green;height:100px;width:100px;position:absolute' id='green'></div>\n  <div style='background-color:red;height:100px;width:100px;position:absolute' id='red' accessKey='jack'></div>\n  <button type='button' id='button' style='margin-top:200px'>Click Me</button>\n<script>\n\n  </script>\n</body>\n</html>\n            ",
+    "initial_js": "const button = document.querySelector('#button');\nbutton.addEventListener('click', ()=>{\n\n});\n",
+    "test_cases": [
+      {
+        "isEvent": true,
+        "event": "click",
+        "event_selector": "#button",
+        "what_selector_to_check": "#red", 
+        "what_to_check": "accessKey"
+      }
+    ],
+    "expected_output": []
+  },
+  {
+    "challenge_id": 5,
+    "challenge_name": "dom challenge test 5",
+    "challenge_des":"",
+    "initial_html": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>IFrameContent</title>\n</head>\n<body>\n<input type='checkbox' id='checkbox' disabled/>\n<label for='checkbox'>checkbox</label>\n<button type='button' id='button'>Verify Code</button>\n<script>\n\n  </script>\n</body>\n</html>\n",
+    "initial_js": "const button = document.getElementById('button');\nbutton.addEventListener('mouseleave', () => {\n\n});\n",
+    "test_cases": [
+      {
+        "isEvent": true,
+        "event": "mouseleave",
+        "event_selector": "#button",
+        "what_selector_to_check": "#checkbox", 
+        "what_to_check": "checked"
+      }
+    ],
+    "expected_output": [true]
   }
+
 ]
