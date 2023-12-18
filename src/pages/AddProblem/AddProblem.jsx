@@ -25,10 +25,6 @@ const AddProblem = () => {
     setHtml(value);
   }, []);
 
-  useEffect(() => {
-    console.log(html, js);
-  }, [html, js]);
-
   //handle test case modal
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -39,11 +35,18 @@ const AddProblem = () => {
       challenge_des: e.target.challengeDes.value,
       html: html,
       js: js,
+      testCases:testCases
     });
   };
+
+  const handleRemove = index =>{
+    const testCasesArrayCopy = [...testCases]
+    testCasesArrayCopy.splice(index, 1);
+    setTestCases(testCasesArrayCopy)
+  }
   return (
-    <div style={{display:"flex"}}>
-      <div style={{width:"48%",border:"1px solid red"}}>
+    <div style={{ display: "flex" }}>
+      <div style={{ width: "48%", border: "1px solid red" }}>
         <form onSubmit={handleSubmit}>
           <div>
             challenge Name: <input name="challengeName" type="text" />
@@ -58,43 +61,47 @@ const AddProblem = () => {
           <div>
             Initial Js
             <CodeEditor onChange={onChangeJs}></CodeEditor>
+           <div>
+           Add Test Cases:
+        <button type="button" onClick={() => setIsOpen(true)}>Add Test Case</button>
+           </div>
             <button type="submit">Add problem</button>
           </div>
         </form>
-        Add Test Cases:
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <CustomModal
+        
+        
+      </div>
+
+      {/* input pattern */}
+      <div style={{ width: "48%", border: "1px solid green" }}>
+        {testCases.map((test, index) => {
+          return (
+            <div
+              style={{
+                backgroundColor: "orange",
+                width: "100%",
+                marginBottom: "10px",
+              }}
+            >
+              {test.isEvent && (
+                <>
+                  <p>Event: {test.event}</p>
+                  <p>Event Selector: {test.event_selector}</p>
+                </>
+              )}
+              <p>what selector to check: {test.what_selector_to_check}</p>
+              <p>what to check: {test.what_to_check}</p>
+              <button onClick={()=>handleRemove(index)}>Remove</button>
+            </div>
+          );
+        })}
+      </div>
+      <CustomModal
           modalIsOpen={modalIsOpen}
           setIsOpen={setIsOpen}
           testCases={testCases}
           setTestCases={setTestCases}
         ></CustomModal>
-      </div>
-
-      {/* input pattern */}
-      <div style={{width:"48%",border:"1px solid green"}}>
-        {
-          testCases.map((test,index)=>{
-            return <div style={{backgroundColor:"red",width:"100%",marginBottom:"10px"}}>
-              {
-                test.isEvent && <>
-                <p>Event: {test.event}</p>
-              <p>Event Selector: {test.event_selector}</p>
-                </>
-                
-
-
-
-              }
-              <p>what selector to check: {test.what_selector_to_check}</p>
-              <p>what to check: {test.what_to_check}</p>
-              
-
-
-            </div>
-          })
-        }
-      </div>
     </div>
   );
 };
