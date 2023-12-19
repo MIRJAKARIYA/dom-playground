@@ -4,6 +4,7 @@ import AllProblems from "../pages/AllProblems/AllProblems";
 import SingleProblem from "../pages/SingleProblem/SingleProblem";
 import AddProblem from "../pages/AddProblem/AddProblem";
 import ManageProblems from "../pages/ManageProblems/ManageProblems";
+import ManageSingleProblem from "../pages/ManageSingleProblem/ManageSingleProblem";
 
  const routes = createBrowserRouter([
     {
@@ -31,6 +32,16 @@ import ManageProblems from "../pages/ManageProblems/ManageProblems";
             {
                 path:"/manageProblems",
                 element:<ManageProblems></ManageProblems>
+            },
+            {
+                path:"/manageSingleProblem/:id",
+                element:<ManageSingleProblem></ManageSingleProblem>,
+                loader:async ({params})=> {
+                    const res =await fetch('http://localhost:5000/allProblems')
+                    console.log(res)
+                    const data = await res.json()
+                    return data.find(d=>d._id == params.id)
+                }
             }
         ]
     }

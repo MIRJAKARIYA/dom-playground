@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ManageProblems = () => {
   const [problemArray, setProblemArray] = useState([]);
   const [reload,setReload] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     fetch("http://localhost:5000/allProblems")
       .then((res) => res.json())
@@ -31,7 +33,7 @@ const ManageProblems = () => {
         return (
           <div>
             <h1>{prob.challenge_name}</h1>
-            <button>Update</button>
+            <button onClick={()=>navigate(`/manageSingleProblem/${prob._id}`)}>Update</button>
             <button onClick={()=>handleDelete(prob._id)}>Delete</button>
           </div>
         );
